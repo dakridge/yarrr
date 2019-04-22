@@ -1,0 +1,37 @@
+{
+  "name": "yarrr",
+  "version": "1.0.0",
+  "main": "dist/bundle.umd.js",
+  "jsnext:main": "dist/bundle.es.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf dist/ && node_modules/.bin/rollup -c",
+    "prepublish": "npm run build",
+    "test": "NODE_ENV=TEST ./node_modules/.bin/mocha --check-leaks --opts ./test/setup/mocha.opts ./test/setup/browser.js ./test/index.js",
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dakridge/yarrr"
+  },
+  "dependencies": {
+    "history": "^4.9.0",
+    "immutable": "^4.0.0-rc.12",
+    "path-to-regexp": "^3.0.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-redux": "^7.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-external-helpers": "^7.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "rollup": "^1.10.1",
+    "rollup-plugin-async": "^1.2.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-terser": "^4.0.4",
+    "rollup-plugin-uglify": "^6.0.2"
+  }
+}
