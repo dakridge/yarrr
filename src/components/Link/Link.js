@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { push, replace as replaceRoute } from '../..Router';
 
 // utils
-import objectToParams from 'Utils/objectToParams';
+import objectToParams from '../utils/objectToParams';
 
 // styles
 import css from './Link.styl';
