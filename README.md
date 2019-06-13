@@ -1,4 +1,4 @@
-# Yet Another Redux React Router (YARRR)
+# Yet Another Redux React Router
 
 This is just another router that keeps everything stored in the redux store. Right now, it expects the entire store to be using Immutable.js.
 

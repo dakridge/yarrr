@@ -64,12 +64,11 @@ class Router extends Component {
     }
 
     render() {
-        const { MatchedComponent } = this.props;
-        console.log(this.props);
+        const { MatchedComponent, onMount, onUpdate, routes, ...otherProps } = this.props;
 
         if (MatchedComponent) {
             return (
-                <MatchedComponent />
+                <MatchedComponent {...otherProps} />
             );
         }
 

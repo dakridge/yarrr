@@ -2,10 +2,10 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { PureComponent } from 'react';
-import { push, replace as replaceRoute } from '../..Router';
+import { push, replace as replaceRoute } from '../../actions';
 
 // utils
-import objectToParams from 'Utils/objectToParams';
+import objectToParams from '../../utils/objectToParams';
 
 // styles
 import css from './Link.styl';
@@ -18,38 +18,52 @@ import css from './Link.styl';
 export class Link extends PureComponent {
     static propTypes = {
         replace      : PropTypes.bool,
+        isExternal   : PropTypes.bool,
+        children     : PropTypes.node,
         className    : PropTypes.string,
+        style        : PropTypes.object,
         methodPush   : PropTypes.func.isRequired,
         methodReplace: PropTypes.func.isRequired,
-        children     : PropTypes.node.isRequired,
-        to           : PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+        href         : PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     }
 
     static defaultProps = {
-        className: '',
-        replace  : false,
+        className : '',
+        style     : {},
+        children  : null,
+        replace   : false,
+        isExternal: false,
     }
 
-    handleClick = () => {
-        const { to, replace, methodReplace, methodPush } = this.props;
+    handleClick = (event) => {
+        const { href, replace, methodReplace, methodPush, isExternal } = this.props;
+        const isModifiedEvent = !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 
         const method = replace ? methodReplace : methodPush;
 
-        if (typeof to === 'string') {
-            method(to);
-        }
-        else if (typeof to === 'object') {
-            const { pathname, search } = to;
-            const url = pathname + objectToParams(search);
-            method(url);
+        if (!isModifiedEvent && !isExternal) {
+            event.preventDefault();
+
+            if (typeof href === 'string') {
+                method(href);
+            }
+            else if (typeof href === 'object') {
+                const { pathname, search } = href;
+                const url = pathname + objectToParams(search);
+                method(url);
+            }
         }
     }
 
     render() {
-        const { className, children } = this.props;
+        const { className, children, isExternal, href, style } = this.props;
+
+        const linkProps = {
+            ...isExternal ? { target: '_blank' } : {},
+        };
 
         return (
-            <div onClick={this.handleClick} className={`${className}`} style={{ display: 'inline', cursor: 'pointer' }}>{children}</div>
+            <a className={`${css.link} ${className}`} onClick={this.handleClick} href={href} style={style} {...linkProps}>{children}</a>
         );
     }
 }
